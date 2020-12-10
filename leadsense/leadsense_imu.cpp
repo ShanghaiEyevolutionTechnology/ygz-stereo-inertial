@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 				cv::Mat imLeft = evoMat2cvMat(evo_left);
 				cv::Mat imRight = evoMat2cvMat(evo_right);
 
-				double tframe = camera.getCurrentFrameTimeCode();
+				double tframe = (double)camera.getCurrentFrameTimeCode() / 1000000000;
 
 				// Pass the data to the SLAM system
 				if (imu_data.size() > 0)
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 					ygz::VecIMU vimu;
 					for (int i = 0; i < imu_data.size(); i++)
 		    		{
-		    			ygz::IMUData data(imu_data.at(i).gyro_calibrated[0], imu_data.at(i).gyro_calibrated[1], imu_data.at(i).gyro_calibrated[2], imu_data.at(i).accel_calibrated[0], imu_data.at(i).accel_calibrated[1], imu_data.at(i).accel_calibrated[2], imu_data.at(i).timestamp);
+		    			ygz::IMUData data(imu_data.at(i).gyro_calibrated[0], imu_data.at(i).gyro_calibrated[1], imu_data.at(i).gyro_calibrated[2], imu_data.at(i).accel_calibrated[0], imu_data.at(i).accel_calibrated[1], imu_data.at(i).accel_calibrated[2], (double)imu_data.at(i).timestamp / 1000000000);
 		    			vimu.push_back(data);
 		    		}
 					system.AddStereoIMU(imLeft, imRight, tframe, vimu);
